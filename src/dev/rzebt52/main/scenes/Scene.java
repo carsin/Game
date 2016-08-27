@@ -1,4 +1,4 @@
-package dev.rzebt52.scenes;
+package dev.rzebt52.main.scenes;
 
 import java.awt.Graphics;
 
