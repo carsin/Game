@@ -2,7 +2,10 @@ package dev.rzebt52;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
@@ -115,7 +118,20 @@ public class Game implements Runnable {
 	}
 	
 	public void render() {
+		BufferStrategy bs = canvas.getBufferStrategy();
+		if (bs == null) {
+			canvas.createBufferStrategy(3);
+			return;
+		}
 		
+		Graphics g = bs.getDrawGraphics();
+		
+		//Creating background
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		g.dispose();
+		bs.show();
 	}
 
 	public static void main(String[] args) {
