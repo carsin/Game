@@ -26,18 +26,17 @@ public class Game implements Runnable {
 		frame = new JFrame(NAME);
 		canvas = new Canvas();
 		
-		frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		frame.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		frame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		canvas.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		canvas.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
+		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		
 		frame.add(canvas, BorderLayout.CENTER);
-		frame.pack();
-		
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		frame.pack();
 		frame.setVisible(true);
 	}
 
@@ -45,7 +44,7 @@ public class Game implements Runnable {
 	public void run() {
 
 		int maxTps = 120;
-		int maxFps = 1000000;
+		int maxFps = 60;
 		double timePerTick = 1000000000 / maxTps;
 		double timePerFrame = 1000000000 / maxFps;
 		double deltaTicks = 0;
