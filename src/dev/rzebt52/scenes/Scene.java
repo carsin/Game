@@ -2,7 +2,15 @@ package dev.rzebt52.scenes;
 
 import java.awt.Graphics;
 
+import dev.rzebt52.main.Conveyor;
+
 public abstract class Scene {
+	
+	public Conveyor conveyor;
+	
+	public Scene(Conveyor conveyor){
+		this.conveyor = conveyor;
+	}
 
 	public static Scene currentScene;
 	

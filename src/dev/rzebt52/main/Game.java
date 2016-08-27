@@ -1,4 +1,4 @@
-package dev.rzebt52;
+package dev.rzebt52.main;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -16,12 +16,6 @@ import dev.rzebt52.scenes._Game;
 
 public class Game implements Runnable {
 
-	// SCENES
-
-	_Game _game;
-
-	// SCENES
-
 	public static final int WIDTH = 1366;
 	public static final int HEIGHT = 768;
 	public static final String NAME = "Game";
@@ -31,6 +25,17 @@ public class Game implements Runnable {
 
 	private Canvas canvas;
 	private JFrame frame;
+	
+	public Conveyor conveyor;
+
+	int ticks = 0;
+	int frames = 0;
+	
+	// SCENES //
+
+	public _Game _game;
+
+	// SCENES //
 
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -58,15 +63,17 @@ public class Game implements Runnable {
 	}
 
 	public void init() {
-
-		// INITIALIZE SCENES
-
-		_game = new _Game();
 		
-		// INITIALIZE SCENES
+		conveyor = new Conveyor(this);
+
+		// INITIALIZE SCENES // 
+
+		_game = new _Game(conveyor);
+
+		// INITIALIZE SCENES // 
 
 		Scene.setScene(_game);
-
+		
 	}
 
 	@Override
@@ -111,8 +118,9 @@ public class Game implements Runnable {
 
 			if (timer >= 1000000000) {
 
-				System.out.println("TPS: " + ticks + " FPS: " + frames);
-
+				this.ticks = ticks;
+				this.frames = frames;
+				
 				ticks = 0;
 				frames = 0;
 				timer = 0;
@@ -165,7 +173,7 @@ public class Game implements Runnable {
 
 		Graphics g = bs.getDrawGraphics();
 
-		// Creating background
+		// BACKGROUND //
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -174,10 +182,21 @@ public class Game implements Runnable {
 
 		g.dispose();
 		bs.show();
+
 	}
 
 	public static void main(String[] args) {
 		new Game().start();
+	}
+
+	// GETTERS AND SETTERS //
+
+	public int getTicks() {
+		return ticks;
+	}
+
+	public int getFrames() {
+		return frames;
 	}
 
 }
