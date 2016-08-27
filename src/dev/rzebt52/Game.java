@@ -6,7 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 public class Game implements Runnable {
@@ -20,6 +21,11 @@ public class Game implements Runnable {
 	
 	private Canvas canvas;
 	private JFrame frame;
+	
+	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	
+	public int tickCount = 0;
 
 	public Game() {
 		
@@ -113,7 +119,11 @@ public class Game implements Runnable {
 	}
 	
 	public void tick() {
-
+		tickCount++;
+		
+		for (int i = 0; i < pixels.length; i++) {
+		 pixels[i] = i + tickCount;
+		}
 	}
 	
 	public void render() {
@@ -129,6 +139,8 @@ public class Game implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		g.drawImage(image, 0, 0, WIDTH, HEIGHT, null)
+;		
 		g.dispose();
 		bs.show();
 	}
