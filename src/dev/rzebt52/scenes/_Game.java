@@ -18,7 +18,7 @@ public class _Game extends Scene {
 	public void render(Graphics g) {
 		
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("FPS: " + conveyor.getGame().getFrames() + " TPS: " + conveyor.getGame().getTicks(), 10, 10);
+		g.drawString("FPS: " + conveyor.getGame().getFrames() + " TPS: " + conveyor.getGame().getTicks(), 10, 20);
 		
 	}
 	
