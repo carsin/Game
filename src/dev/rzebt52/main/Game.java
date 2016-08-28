@@ -11,6 +11,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.scenes.Scene;
 import dev.rzebt52.main.scenes._Game;
 
@@ -65,6 +66,7 @@ public class Game implements Runnable {
 	public void init() {
 		
 		conveyor = new Conveyor(this);
+		Assets.update();
 
 		// INITIALIZE SCENES // 
 
