@@ -11,6 +11,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.scenes.Scene;
 import dev.rzebt52.main.scenes._Game;
 
@@ -65,6 +66,7 @@ public class Game implements Runnable {
 	public void init() {
 		
 		conveyor = new Conveyor(this);
+		Assets.update();
 
 		// INITIALIZE SCENES // 
 
@@ -157,7 +159,7 @@ public class Game implements Runnable {
 		tickCount++;
 
 		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = i + tickCount;
+			pixels[i] = i + tickCount + tickCount;
 		}
 
 		Scene.getCurrentScene().tick();
