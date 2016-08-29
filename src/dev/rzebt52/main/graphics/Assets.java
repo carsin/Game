@@ -5,17 +5,17 @@ import java.awt.image.BufferedImage;
 public class Assets {
 
 	public static final int RESOLUTION = 8;
-	public static final int DRAW_SIZE = 64;
+	public static final int DRAW_SIZE = 48;
 	
 	public static SpriteSheet tiles;
 	
-	public static BufferedImage dirt;
+	public static BufferedImage test;
 	
 	public static void update() {
 		
 		tiles = new SpriteSheet(ImageHandler.loadImage("resources/texturepacks/tiles.png"));
 		
-		dirt = tiles.crop(3, 0);
+		test = tiles.crop(0, 0);
 		
 	}
 	
