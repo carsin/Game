@@ -12,6 +12,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import dev.rzebt52.main.graphics.Assets;
+import dev.rzebt52.main.input.KeyHandler;
 import dev.rzebt52.main.scenes.Scene;
 import dev.rzebt52.main.scenes._Game;
 
@@ -21,13 +22,14 @@ public class Game implements Runnable {
 	public static final int HEIGHT = 768;
 	public static final String NAME = "Game";
 
-	public Thread thread;
-	public boolean running;
+	private Thread thread;
+	private boolean running;
 
 	private Canvas canvas;
 	private JFrame frame;
 	
-	public Conveyor conveyor;
+	private Conveyor conveyor;
+	private KeyHandler keyHandler;
 
 	int ticks = 0;
 	int frames = 0;
@@ -41,32 +43,38 @@ public class Game implements Runnable {
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
-	public int tickCount = 0;
-
-	public Game() {
-
+	private int tickCount = 0;
+	
+	private void initFrame() {
+		
 		frame = new JFrame(NAME);
 		canvas = new Canvas();
 
 		canvas.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		canvas.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		canvas.setFocusable(false);
 
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		frame.add(canvas, BorderLayout.CENTER);
 		frame.setResizable(false);
+		frame.setFocusable(true);
+		frame.addKeyListener(keyHandler);
 		frame.setLocationRelativeTo(null);
+		frame.requestFocus();
 		frame.pack();
 		frame.setVisible(true);
-
+		
 	}
 
-	public void init() {
+	private void init() {
 		
 		conveyor = new Conveyor(this);
+		keyHandler = new KeyHandler(conveyor);
 		Assets.update();
+		initFrame();
 
 		// INITIALIZE SCENES // 
 
@@ -135,7 +143,7 @@ public class Game implements Runnable {
 
 	}
 
-	public synchronized void start() {
+	private synchronized void start() {
 
 		running = true;
 		thread = new Thread(this);
@@ -155,7 +163,8 @@ public class Game implements Runnable {
 
 	}
 
-	public void tick() {
+	private void tick() {
+		
 		tickCount++;
 
 		for (int i = 0; i < pixels.length; i++) {
@@ -166,7 +175,8 @@ public class Game implements Runnable {
 
 	}
 
-	public void render() {
+	private void render() {
+		
 		BufferStrategy bs = canvas.getBufferStrategy();
 		if (bs == null) {
 			canvas.createBufferStrategy(3);
@@ -179,7 +189,7 @@ public class Game implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
-		g.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
+//		g.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
 		Scene.getCurrentScene().render(g);
 
 		g.dispose();
@@ -199,6 +209,18 @@ public class Game implements Runnable {
 
 	public int getFrames() {
 		return frames;
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
+	public KeyHandler getKeyHandler() {
+		return keyHandler;
 	}
 
 }
