@@ -81,7 +81,7 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 
-		int maxTps = 120;
+		int maxTps = 60;
 		int maxFps = 60;
 		double timePerTick = 1000000000 / maxTps;
 		double timePerFrame = 1000000000 / maxFps;
