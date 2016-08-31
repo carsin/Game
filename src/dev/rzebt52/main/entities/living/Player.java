@@ -1,5 +1,6 @@
 package dev.rzebt52.main.entities.living;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -9,18 +10,16 @@ import dev.rzebt52.main.input.KeyHandler;
 
 public class Player extends Living {
 
-	public Player(int x, int y, Conveyor conveyor) {
+	private boolean controlled;
+	
+	public Player(int x, int y, boolean controlled, Conveyor conveyor) {
 
 		super(x, y, conveyor);
-		speed = 2;
-		traction = 0.3f;
+		this.controlled = controlled;
 		
-		boundsX = 3 * Assets.RESOLUTION;
-		boundsY = 3 * Assets.RESOLUTION;
-		boundsWidth = 3 * Assets.RESOLUTION;
-		boundsHeight = 3 * Assets.RESOLUTION;
+		speed = 5;
 		
-		updateBounds();
+		bounds.setBounds(6, 6, 42, 36);
 		
 	}
 
@@ -28,27 +27,27 @@ public class Player extends Living {
 
 		KeyHandler keyHandler = conveyor.getKeyHandler();
 
-		if (keyHandler.getKeys(KeyEvent.VK_W)) {
+		if (keyHandler.getKeys(KeyEvent.VK_W) && !keyHandler.getKeys(KeyEvent.VK_S)) {
 			ySpeed = -speed;
 		}
 
-		if (keyHandler.getKeys(KeyEvent.VK_S)) {
+		else if (keyHandler.getKeys(KeyEvent.VK_S) && !keyHandler.getKeys(KeyEvent.VK_W)) {
 			ySpeed = speed;
 		}
-
-		else if (!keyHandler.getKeys(KeyEvent.VK_W) && !keyHandler.getKeys(KeyEvent.VK_S)) {
+		
+		else {
 			ySpeed = 0;
 		}
 		
-		if (keyHandler.getKeys(KeyEvent.VK_A)) {
+		if (keyHandler.getKeys(KeyEvent.VK_A) && !keyHandler.getKeys(KeyEvent.VK_D)) {
 			xSpeed = -speed;
 		}
-		
-		if (keyHandler.getKeys(KeyEvent.VK_D)) {
+
+		else if (keyHandler.getKeys(KeyEvent.VK_D) && !keyHandler.getKeys(KeyEvent.VK_A)) {
 			xSpeed = speed;
 		}
 		
-		else if (!keyHandler.getKeys(KeyEvent.VK_A) && !keyHandler.getKeys(KeyEvent.VK_D)) {
+		else {
 			xSpeed = 0;
 		}
 
@@ -56,14 +55,18 @@ public class Player extends Living {
 
 	@Override
 	public void tick() {
-		getControls();
+		if(controlled) {
+			getControls();
+		}
 		move();
 	}
 
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(Assets.test, (int) x, (int) y, (int) width, (int) height, null);
+		g.drawImage(Assets.test, (int) x, (int) y, width, height, null);
+		g.setColor(Color.RED);
+		g.drawRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
 
 	}
 

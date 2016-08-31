@@ -186,7 +186,7 @@ public class Game implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 
 		// BACKGROUND //
-		g.setColor(Color.BLACK);
+		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 //		g.drawImage(image, 0, 0, WIDTH, HEIGHT, null);

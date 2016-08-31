@@ -4,6 +4,7 @@ import java.awt.Canvas;
 
 import javax.swing.JFrame;
 
+import dev.rzebt52.main.entities.EntityHandler;
 import dev.rzebt52.main.input.KeyHandler;
 
 public class Conveyor {
@@ -28,6 +29,10 @@ public class Conveyor {
 	
 	public Canvas getCanvas() {
 		return game.getCanvas();
+	}
+	
+	public EntityHandler getEntityHandler() {
+		return game._game.getEntityHandler();
 	}
 
 }

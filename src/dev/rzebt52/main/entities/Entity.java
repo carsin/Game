@@ -8,10 +8,6 @@ import dev.rzebt52.main.graphics.Assets;
 
 public abstract class Entity {
 
-	protected int boundsX;
-	protected int boundsY;
-	protected int boundsWidth;
-	protected int boundsHeight;
 	protected float x;
 	protected float y;
 	protected int width = Assets.DRAW_SIZE;
@@ -24,24 +20,29 @@ public abstract class Entity {
 		this.x = x;
 		this.y = y;
 		this.conveyor = conveyor;
-		
-		bounds = new Rectangle();
-		
-		boundsX = (int) x;
-		boundsY = (int) y;
-		boundsWidth = width;
-		boundsHeight = height;
-		
-		updateBounds();
+
+		bounds = new Rectangle(0, 0, width, height);
 
 	}
-	
-	public void updateBounds() {
-		bounds.setBounds((int) (x + boundsX), (int) (y + boundsY), boundsWidth, boundsHeight);
+
+	public boolean getCollision(float xOffset, float yOffset) {
+		for(Entity e : conveyor.getEntityHandler().getEntities()) {
+			if(e.equals(this)) {
+				continue;
+			}
+			if(e.getRectOffset(0f, 0f).intersects(getRectOffset(xOffset, yOffset))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Rectangle getRectOffset(float xOffset, float yOffset) {
+		return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 
 	public abstract void tick();
-	
+
 	public abstract void render(Graphics g);
 
 	public float getX() {
@@ -58,6 +59,10 @@ public abstract class Entity {
 
 	public void setY(float y) {
 		this.y = y;
+	}
+	
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
 }

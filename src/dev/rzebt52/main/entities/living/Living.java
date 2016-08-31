@@ -8,29 +8,31 @@ public abstract class Living extends Entity {
 	protected float speed;
 	protected float xSpeed;
 	protected float ySpeed;
-	protected float traction;
-	
+
 	public Living(int x, int y, Conveyor conveyor) {
-		
+
 		super(x, y, conveyor);
-		
+
 	}
-	
+
 	protected void move() {
-		
-		moveX();
-		moveY();
-		
+
+		if (!getCollision(xSpeed, 0)) {
+			moveX();
+		}
+
+		if (!getCollision(0, ySpeed)) {
+			moveY();
+		}
+
 	}
-	
+
 	protected void moveX() {
 		x += xSpeed;
-		bounds.x = (int) (x + boundsX);
 	}
-	
+
 	protected void moveY() {
 		y += ySpeed;
-		bounds.y = (int) (y + boundsY);
 	}
 
 }
