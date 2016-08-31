@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 public class Assets {
 
 	public static final int RESOLUTION = 8;
-	public static final int DRAW_SIZE = 48;
+	public static final int DRAW_SIZE = 56;
 	
 	public static SpriteSheet tiles;
 	
