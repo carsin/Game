@@ -23,9 +23,9 @@ public class _Game extends Scene {
 	public void render(Graphics g) {
 		
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawImage(Assets.dirt, 100, 100, Assets.DRAW_SIZE, Assets.DRAW_SIZE, null);
+		g.drawImage(Assets.test, 100, 100, Assets.DRAW_SIZE, Assets.DRAW_SIZE, null);
 		player.render(g);
-		g.drawString("FPS: " + conveyor.getGame().getFrames() + " TPS: " + conveyor.getGame().getTicks(), 10, 20);
+		g.drawImage(Assets.test, 100, 100, Assets.DRAW_SIZE, Assets.DRAW_SIZE, null);
 		
 	}
 	

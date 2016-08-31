@@ -63,7 +63,7 @@ public class Player extends Living {
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(Assets.dirt, (int) x, (int) y, (int) width, (int) height, null);
+		g.drawImage(Assets.test, (int) x, (int) y, (int) width, (int) height, null);
 
 	}
 
