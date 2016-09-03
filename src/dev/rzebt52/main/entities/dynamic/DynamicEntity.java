@@ -1,15 +1,15 @@
-package dev.rzebt52.main.entities.living;
+package dev.rzebt52.main.entities.dynamic;
 
 import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.entities.Entity;
 
-public abstract class Living extends Entity {
+public abstract class DynamicEntity extends Entity {
 
 	protected float speed;
 	protected float xSpeed;
 	protected float ySpeed;
 
-	public Living(int x, int y, Conveyor conveyor) {
+	public DynamicEntity(int x, int y, Conveyor conveyor) {
 
 		super(x, y, conveyor);
 

@@ -5,17 +5,21 @@ import java.awt.image.BufferedImage;
 public class Assets {
 
 	public static final int RESOLUTION = 8;
-	public static final int DRAW_SIZE = 56;
+	public static final int DRAWSIZE = 56;
+	public static final int DRAWRES = DRAWSIZE / RESOLUTION;
 	
-	public static SpriteSheet tiles;
+	public static SpriteSheet tiles, playerSpriteSheet;
 	
-	public static BufferedImage test;
+	public static BufferedImage player, dirt, test1;
 	
 	public static void update() {
 		
-		tiles = new SpriteSheet(ImageHandler.loadImage("resources/texturepacks/tiles.png"));
+		tiles = new SpriteSheet(ImageHandler.loadImage("resources/textures/tiles.png"));
+		playerSpriteSheet = new SpriteSheet(ImageHandler.loadImage("resources/textures/player.png"));
 		
-		test = tiles.crop(0, 0);
+		player = playerSpriteSheet.crop(0, 0);
+		dirt = tiles.crop(0, 0);
+		test1 = tiles.crop(1, 0);
 		
 	}
 	

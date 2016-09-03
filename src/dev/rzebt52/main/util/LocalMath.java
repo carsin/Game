@@ -1,6 +1,6 @@
-package dev.rzebt52.main;
+package dev.rzebt52.main.util;
 
-public class Mathf {
+public class LocalMath {
 
 	public static float lerp(float num1, float num2, float amount) {
 		if (Math.abs(num2 - num1) >= 0.0005f)

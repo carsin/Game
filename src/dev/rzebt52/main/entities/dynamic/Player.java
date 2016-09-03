@@ -1,6 +1,5 @@
-package dev.rzebt52.main.entities.living;
+package dev.rzebt52.main.entities.dynamic;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -8,7 +7,7 @@ import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.input.KeyHandler;
 
-public class Player extends Living {
+public class Player extends DynamicEntity {
 
 	private boolean controlled;
 	
@@ -19,7 +18,7 @@ public class Player extends Living {
 		
 		speed = 5;
 		
-		bounds.setBounds(6, 6, 42, 36);
+		bounds.setBounds(3 * Assets.DRAWRES, 4, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES);
 		
 	}
 
@@ -64,9 +63,7 @@ public class Player extends Living {
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(Assets.test, (int) x, (int) y, width, height, null);
-		g.setColor(Color.RED);
-		g.drawRect((int) x + bounds.x, (int) y + bounds.y, bounds.width, bounds.height);
+		g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
 
 	}
 

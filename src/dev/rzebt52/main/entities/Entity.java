@@ -10,8 +10,8 @@ public abstract class Entity {
 
 	protected float x;
 	protected float y;
-	protected int width = Assets.DRAW_SIZE;
-	protected int height = Assets.DRAW_SIZE;
+	protected int width = Assets.DRAWSIZE;
+	protected int height = Assets.DRAWSIZE;
 	protected Rectangle bounds;
 	protected Conveyor conveyor;
 
