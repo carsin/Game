@@ -5,26 +5,20 @@ import java.awt.Rectangle;
 public class HitBox extends Rectangle {
 
 	private static final long serialVersionUID = 1L;
-	private boolean isTrigger;
 	
-	public HitBox(int x, int y, int width, int height, boolean isTrigger) {
+	public HitBox(int x, int y, int width, int height) {
 		
-		super(x, y, width, height);
-		
-		this.isTrigger = isTrigger;
+		super(x, y, width - 1, height - 1);
 		
 	}
 	
-	public void setTrigger(boolean isTrigger) {
-		this.isTrigger = isTrigger;
-	}
-	
-	public boolean isTrigger() {
-		return isTrigger;
-	}
-	
-	public boolean isCollider() {
-		return !isTrigger;
+	public void setBounds(int x, int y, int width, int height) {
+		
+		this.x = x;
+		this.y = y;
+		this.width = width - 1;
+		this.height = height - 1;
+		
 	}
 	
 }

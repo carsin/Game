@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import dev.rzebt52.main.entities.EntityHandler;
 import dev.rzebt52.main.input.KeyHandler;
+import dev.rzebt52.main.world.World;
 
 public class Conveyor {
 
@@ -33,6 +34,10 @@ public class Conveyor {
 	
 	public EntityHandler getEntityHandler() {
 		return game._game.getEntityHandler();
+	}
+	
+	public World getWorld() {
+		return game._game.getWorld();
 	}
 
 }

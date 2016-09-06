@@ -12,7 +12,7 @@ public abstract class Entity {
 	protected float y;
 	protected int width = Assets.DRAWSIZE;
 	protected int height = Assets.DRAWSIZE;
-	protected Rectangle bounds;
+	protected HitBox bounds;
 	protected Conveyor conveyor;
 
 	public Entity(float x, float y, Conveyor conveyor) {
@@ -21,7 +21,7 @@ public abstract class Entity {
 		this.y = y;
 		this.conveyor = conveyor;
 
-		bounds = new Rectangle(0, 0, width, height);
+		bounds = new HitBox(0, 0, width, height);
 
 	}
 

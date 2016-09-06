@@ -10,9 +10,8 @@ public class World {
 	public World(String path) {
 		
 		regions = new ArrayList<Region>();
-		regions.add(new Region(0, 0, path));
-		regions.add(new Region(0, 1, path));
-		System.out.println(getTile(1, 1));
+		regions.add(new Region(0, 0, 0, path));
+		regions.add(new Region(0, 0, 1, path));
 		
 	}
 
@@ -29,18 +28,25 @@ public class World {
 		}
 	}
 	
-	public Region getRegion(int x, int y) {
+	public Region getRegion(int x, int y, int z) {
 		for(Region r : regions) {
-			if(r.getWorldX() == x && r.getWorldY() == y) {
+			if(r.getWorldX() == x && r.getWorldY() == y && r.getWorldZ() == z) {
 				return r;
 			}
 		}
 		return null;
 	}
 	
-	public int getTile(int x, int y) {
-		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
-		return r.getTile(x + r.getWorldX() * Region.REGIONSIZE , y + r.getWorldY() * Region.REGIONSIZE);
+	public int getTile(int x, int y, int z) {
+		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE), z);
+		System.out.println((int) Math.floor(x / Region.REGIONSIZE));
+		try {
+			int t = r.getTile(x + r.getWorldX() * Region.REGIONSIZE, y + r.getWorldY() * Region.REGIONSIZE);
+			return t;
+		} catch (NullPointerException e) {
+			return -1;
+		}
+		
 	}
 
 }

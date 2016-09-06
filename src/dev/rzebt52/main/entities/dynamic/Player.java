@@ -10,16 +10,16 @@ import dev.rzebt52.main.input.KeyHandler;
 public class Player extends DynamicEntity {
 
 	private boolean controlled;
-	
+
 	public Player(int x, int y, boolean controlled, Conveyor conveyor) {
 
 		super(x, y, conveyor);
 		this.controlled = controlled;
-		
+
 		speed = 5;
-		
-		bounds.setBounds(3 * Assets.DRAWRES, 4, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES);
-		
+
+		bounds.setBounds(3 * Assets.DRAWRES, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES);
+
 	}
 
 	public void getControls() {
@@ -33,11 +33,11 @@ public class Player extends DynamicEntity {
 		else if (keyHandler.getKeys(KeyEvent.VK_S) && !keyHandler.getKeys(KeyEvent.VK_W)) {
 			ySpeed = speed;
 		}
-		
+
 		else {
 			ySpeed = 0;
 		}
-		
+
 		if (keyHandler.getKeys(KeyEvent.VK_A) && !keyHandler.getKeys(KeyEvent.VK_D)) {
 			xSpeed = -speed;
 		}
@@ -45,7 +45,7 @@ public class Player extends DynamicEntity {
 		else if (keyHandler.getKeys(KeyEvent.VK_D) && !keyHandler.getKeys(KeyEvent.VK_A)) {
 			xSpeed = speed;
 		}
-		
+
 		else {
 			xSpeed = 0;
 		}
@@ -54,7 +54,7 @@ public class Player extends DynamicEntity {
 
 	@Override
 	public void tick() {
-		if(controlled) {
+		if (controlled) {
 			getControls();
 		}
 		move();
@@ -64,6 +64,8 @@ public class Player extends DynamicEntity {
 	public void render(Graphics g) {
 
 		g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
+//		g.setColor(Color.RED);
+//		g.drawRect((int) (bounds.x + x), (int) (y + bounds.y), bounds.width, bounds.height);
 
 	}
 

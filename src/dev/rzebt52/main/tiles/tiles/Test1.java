@@ -9,4 +9,9 @@ public class Test1 extends Tile {
 		super(id, Assets.test1);
 	}
 
+	@Override
+	public boolean wallIsSolid() {
+		return true;
+	}
+
 }

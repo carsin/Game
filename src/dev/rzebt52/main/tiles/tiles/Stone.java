@@ -9,4 +9,9 @@ public class Stone extends Tile {
 		super(id, Assets.dirt);
 	}
 
+	@Override
+	public boolean wallIsSolid() {
+		return true;
+	}
+
 }
