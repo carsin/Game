@@ -1,39 +1,38 @@
 package dev.rzebt52.main.world;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
+import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.tiles.Tile;
 import dev.rzebt52.main.util.Util;
 
 public class Region {
 
-	public static int REGIONSIZE = 8;
+	public static final int REGIONSIZE = 8;
+	public static final int REGIONHEIGHT = 2;
 
-	private int tiles[][];
+	private int tiles[][][];
 	private int worldX;
 	private int worldY;
-	private int worldZ;
+	private Conveyor conveyor;
 
-	public Region(int worldX, int worldY, int worldZ, String path) {
+	public Region(int worldX, int worldY, String path, Conveyor conveyor) {
 
 		this.worldX = worldX;
 		this.worldY = worldY;
-		this.worldZ = worldZ;
+		this.conveyor = conveyor;
 
-		loadRegion(path + "regions/" + worldX + "_" + worldY + "_" + worldZ + ".region");
+		loadRegion(path + "regions/" + worldX + "_" + worldY + ".region");
 
 	}
 
-	public int getTile(int x, int y) {
+	public int getTile(int x, int y, int z) {
 		try {
-			if (tiles[x][y] != -1)
-				return tiles[x][y];
+			return tiles[x][y][z];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return -1;
 		}
-		return -1;
 	}
 
 	public void loadRegion(String path) {
@@ -41,11 +40,13 @@ public class Region {
 		String regionFile = Util.loadFile(path);
 		String[] tokens = regionFile.split("\\s+");
 
-		tiles = new int[REGIONSIZE][REGIONSIZE];
+		tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
 
-		for (int x = 0; x < REGIONSIZE; x++) {
+		for (int z = 0; z < REGIONHEIGHT; z++) {
 			for (int y = 0; y < REGIONSIZE; y++) {
-				tiles[x][y] = Util.parseInt(tokens[(x + y * REGIONSIZE)]);
+				for (int x = 0; x < REGIONSIZE; x++) {
+					tiles[x][y][z] = Util.parseInt(tokens[(x + y * REGIONSIZE + z * REGIONSIZE * REGIONSIZE)]);
+				}
 			}
 		}
 	}
@@ -57,11 +58,10 @@ public class Region {
 	public void render(Graphics g) {
 		for (int x = 0; x < REGIONSIZE; x++) {
 			for (int y = 0; y < REGIONSIZE; y++) {
-				Tile.getTile(tiles[x][y]).render(g, (x + worldX * REGIONSIZE) * Assets.DRAWSIZE,
-						(y + worldY * REGIONSIZE) * Assets.DRAWSIZE);
-				if (worldZ == 1 && Tile.getTile(tiles[x][y]).wallIsSolid()) {
-					g.setColor(Color.BLACK);
-					g.drawRect(x * Assets.DRAWSIZE, y * Assets.DRAWSIZE, Assets.DRAWSIZE, Assets.DRAWSIZE);
+				for (int z = 0; z < REGIONHEIGHT; z++) {
+					Tile.getTile(tiles[x][y][z]).render(g,
+							(x + worldX * REGIONSIZE) * Assets.DRAWSIZE - conveyor.getCamera().getxOffset(),
+							(y + worldY * REGIONSIZE) * Assets.DRAWSIZE - conveyor.getCamera().getyOffset());
 				}
 			}
 		}
@@ -73,10 +73,6 @@ public class Region {
 
 	public int getWorldY() {
 		return worldY;
-	}
-
-	public int getWorldZ() {
-		return worldZ;
 	}
 
 }

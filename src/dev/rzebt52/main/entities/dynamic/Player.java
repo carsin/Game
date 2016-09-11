@@ -63,7 +63,7 @@ public class Player extends DynamicEntity {
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
+		g.drawImage(Assets.player, (int) (x - conveyor.getCamera().getxOffset()), (int) (y - conveyor.getCamera().getyOffset()), width, height, null);
 //		g.setColor(Color.RED);
 //		g.drawRect((int) (bounds.x + x), (int) (y + bounds.y), bounds.width, bounds.height);
 

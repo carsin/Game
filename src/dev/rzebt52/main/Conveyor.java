@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import javax.swing.JFrame;
 
 import dev.rzebt52.main.entities.EntityHandler;
+import dev.rzebt52.main.graphics.camera.Camera;
 import dev.rzebt52.main.input.KeyHandler;
 import dev.rzebt52.main.world.World;
 
@@ -38,6 +39,10 @@ public class Conveyor {
 	
 	public World getWorld() {
 		return game._game.getWorld();
+	}
+	
+	public Camera getCamera() {
+		return game._game.getCamera();
 	}
 
 }

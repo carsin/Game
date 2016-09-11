@@ -18,12 +18,12 @@ public abstract class DynamicEntity extends Entity {
 	}
 
 	protected void move() {
-
-		if (!getCollision(xSpeed, 0)) {
+		
+		if (!getCollision((int) xSpeed, 0)) {
 			moveX();
 		}
 
-		if (!getCollision(0, ySpeed)) {
+		if (!getCollision(0, (int) ySpeed)) {
 			moveY();
 		}
 
@@ -70,9 +70,10 @@ public abstract class DynamicEntity extends Entity {
 	}
 
 	public boolean getTileCollision(int x, int y, int z) {
-		Tile t = Tile.getTile(conveyor.getWorld().getTile(x, y, z));
-		if(conveyor.getWorld().getTile(x, y, z) != -1)
-			return t.wallIsSolid();
+		int t = conveyor.getWorld().getTile(x, y, z);
+		if(t != -1)
+			return Tile.getTile(t).wallIsSolid();
 		return true;
 	}
+	
 }

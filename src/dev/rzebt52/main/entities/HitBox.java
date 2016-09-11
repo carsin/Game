@@ -8,7 +8,7 @@ public class HitBox extends Rectangle {
 	
 	public HitBox(int x, int y, int width, int height) {
 		
-		super(x, y, width - 1, height - 1);
+		super(x, y, width, height);
 		
 	}
 	
@@ -16,8 +16,8 @@ public class HitBox extends Rectangle {
 		
 		this.x = x;
 		this.y = y;
-		this.width = width - 1;
-		this.height = height - 1;
+		this.width = width;
+		this.height = height;
 		
 	}
 	
