@@ -4,18 +4,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import dev.rzebt52.main.graphics.Assets;
-import dev.rzebt52.main.tiles.tiles.Air;
-import dev.rzebt52.main.tiles.tiles.Stone;
-import dev.rzebt52.main.tiles.tiles.Test1;
+import dev.rzebt52.main.tiles.tiles.*;
 
 public abstract class Tile {
 
 	public static Tile[] tiles = new Tile[256];
 	public static Tile air = new Air(0);
 	public static Tile stone = new Stone(1);
-	public static Tile test1 = new Test1(2);
-
-	// public static Tile dirt = new DirtTile(1);
+	public static Tile dirt = new Dirt(2);
 
 	protected BufferedImage texture;
 	protected int id;

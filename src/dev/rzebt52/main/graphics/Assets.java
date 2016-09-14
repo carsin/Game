@@ -10,7 +10,7 @@ public class Assets {
 	
 	public static SpriteSheet tiles, playerSpriteSheet;
 	
-	public static BufferedImage player, dirt, test1;
+	public static BufferedImage player, dirt, stone;
 	
 	public static void update() {
 		
@@ -18,8 +18,8 @@ public class Assets {
 		playerSpriteSheet = new SpriteSheet(ImageHandler.loadImage("resources/textures/player.png"));
 		
 		player = playerSpriteSheet.crop(0, 0);
-		dirt = tiles.crop(0, 0);
-		test1 = tiles.crop(1, 0);
+		stone = tiles.crop(0, 0);
+		dirt = tiles.crop(1, 0);
 		
 	}
 	

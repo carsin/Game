@@ -6,7 +6,7 @@ import dev.rzebt52.main.tiles.Tile;
 public class Stone extends Tile {
 
 	public Stone(int id) {
-		super(id, Assets.dirt);
+		super(id, Assets.stone);
 	}
 
 	@Override
