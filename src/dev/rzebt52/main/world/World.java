@@ -8,13 +8,28 @@ import dev.rzebt52.main.Conveyor;
 public class World {
 
 	private ArrayList<Region> regions;
+	private String path;
+	private Conveyor conveyor;
 
 	public World(String path, Conveyor conveyor) {
-		
+
+		this.path = path;
+
 		regions = new ArrayList<Region>();
-		regions.add(new Region(0, 0, path, conveyor));
-		//regions.add(new Region(1, 0, path));
-		
+		loadRegion(0, 0);
+
+	}
+
+	public void loadRegion(int regionX, int regionY) {
+		regions.add(new Region(regionX, regionY, path, conveyor));
+	}
+
+	public void unloadRegion(int regionX, int regionY) {
+		for (Region r : regions) {
+			if (r.getWorldX() == regionX && r.getWorldY() == regionY) {
+				regions.remove(r);
+			}
+		}
 	}
 
 	public void tick() {
@@ -29,16 +44,16 @@ public class World {
 			r.render(g);
 		}
 	}
-	
+
 	public Region getRegion(int x, int y) {
-		for(Region r : regions) {
-			if(r.getWorldX() == x && r.getWorldY() == y) {
+		for (Region r : regions) {
+			if (r.getWorldX() == x && r.getWorldY() == y) {
 				return r;
 			}
 		}
 		return null;
 	}
-	
+
 	public int getTile(int x, int y, int z) {
 		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
 		try {
@@ -46,8 +61,16 @@ public class World {
 			return t;
 		} catch (NullPointerException e) {
 			return -1;
+			
 		}
-		
+	}
+
+	public ArrayList<Region> getRegions() {
+		return regions;
+	}
+
+	public String getPath() {
+		return path;
 	}
 
 }

@@ -1,6 +1,7 @@
 package dev.rzebt52.main.world;
 
 import java.awt.Graphics;
+import java.util.Random;
 
 import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.graphics.Assets;
@@ -31,21 +32,38 @@ public class Region {
 		try {
 			return tiles[x][y][z];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return -1;
+			return 0;
 		}
 	}
 
 	public void loadRegion(String path) {
 
 		String regionFile = Util.loadFile(path);
-		String[] tokens = regionFile.split("\\s+");
 
-		tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+		if (regionFile != "" && regionFile != null) {
+			String[] tokens = regionFile.split("\\s+");
 
-		for (int z = 0; z < REGIONHEIGHT; z++) {
-			for (int y = 0; y < REGIONSIZE; y++) {
-				for (int x = 0; x < REGIONSIZE; x++) {
-					tiles[x][y][z] = Util.parseInt(tokens[(x + y * REGIONSIZE + z * REGIONSIZE * REGIONSIZE)]);
+			tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+
+			for (int z = 0; z < REGIONHEIGHT; z++) {
+				for (int y = 0; y < REGIONSIZE; y++) {
+					for (int x = 0; x < REGIONSIZE; x++) {
+						tiles[x][y][z] = Util.parseInt(tokens[(x + y * REGIONSIZE + z * REGIONSIZE * REGIONSIZE)]);
+					}
+				}
+			}
+		} else {
+			tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+
+			for (int z = 0; z < REGIONHEIGHT; z++) {
+				for (int y = 0; y < REGIONSIZE; y++) {
+					for (int x = 0; x < REGIONSIZE; x++) {
+						if (z == 0) {
+							tiles[x][y][z] = new Random().nextInt(2);
+						} else {
+							tiles[x][y][z] = 0;
+						}
+					}
 				}
 			}
 		}
