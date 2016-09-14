@@ -2,22 +2,35 @@ package dev.rzebt52.main.world;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dev.rzebt52.main.Conveyor;
+import dev.rzebt52.main.util.Util;
 
 public class World {
 
 	private ArrayList<Region> regions;
 	private String path;
 	private Conveyor conveyor;
+	private String seed;
 
 	public World(String path, Conveyor conveyor) {
 
 		this.path = path;
+		this.conveyor = conveyor;
 
 		regions = new ArrayList<Region>();
-		loadRegion(0, 0);
+		regions.add(new Region(0, 0, path, conveyor));
+		regions.add(new Region(-1, 0, path, conveyor));
 
+	}
+	
+	public void loadWorld() {
+		String worldFile = Util.loadFile(path);
+		String[] tokens = worldFile.split("\\s+");
+		for(int i = 0; i < tokens.length; i++) {
+			
+		}
 	}
 
 	public void loadRegion(int regionX, int regionY) {
@@ -25,11 +38,17 @@ public class World {
 	}
 
 	public void unloadRegion(int regionX, int regionY) {
-		for (Region r : regions) {
+		Iterator<Region> iterator = regions.iterator();
+		while(iterator.hasNext()) {
+			Region r = iterator.next();
 			if (r.getWorldX() == regionX && r.getWorldY() == regionY) {
 				regions.remove(r);
 			}
 		}
+	}
+	
+	public void unloadRegion(Region r) {
+		regions.remove(r);
 	}
 
 	public void tick() {
@@ -61,7 +80,6 @@ public class World {
 			return t;
 		} catch (NullPointerException e) {
 			return -1;
-			
 		}
 	}
 

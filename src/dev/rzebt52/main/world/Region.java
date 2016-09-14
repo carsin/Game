@@ -12,6 +12,7 @@ public class Region {
 
 	public static final int REGIONSIZE = 8;
 	public static final int REGIONHEIGHT = 2;
+	public static final int REGIONUNLOADDISTANCE = 4;
 
 	private int tiles[][][];
 	private int worldX;
@@ -59,7 +60,7 @@ public class Region {
 				for (int y = 0; y < REGIONSIZE; y++) {
 					for (int x = 0; x < REGIONSIZE; x++) {
 						if (z == 0) {
-							tiles[x][y][z] = new Random().nextInt(2);
+							tiles[x][y][z] = new Random().nextInt(2) + 1;
 						} else {
 							tiles[x][y][z] = 0;
 						}

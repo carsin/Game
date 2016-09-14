@@ -2,10 +2,12 @@ package dev.rzebt52.main.entities.dynamic;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 
 import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.input.KeyHandler;
+import dev.rzebt52.main.world.Region;
 
 public class Player extends DynamicEntity {
 
@@ -56,6 +58,28 @@ public class Player extends DynamicEntity {
 	public void tick() {
 		if (controlled) {
 			getControls();
+			for (int x = 0; x < Region.REGIONUNLOADDISTANCE; x++) {
+				for (int y = 0; y < Region.REGIONUNLOADDISTANCE; y++) {
+					int regionX = (int) (this.x / Region.REGIONSIZE / Assets.DRAWSIZE + x
+							- Region.REGIONUNLOADDISTANCE / 2);
+					int regionY = (int) (this.y / Region.REGIONSIZE / Assets.DRAWSIZE + y
+							- Region.REGIONUNLOADDISTANCE / 2);
+					if (conveyor.getWorld().getRegion(regionX, regionY) == null) {
+						conveyor.getWorld().loadRegion(regionX, regionY);
+					}
+				}
+			}
+
+			Iterator<Region> iterator = conveyor.getWorld().getRegions().iterator();
+			while (iterator.hasNext()) {
+				Region r = iterator.next();
+				if (	   r.getWorldX() <= x / Region.REGIONSIZE / Assets.DRAWSIZE - Region.REGIONUNLOADDISTANCE / 2
+						|| r.getWorldX() >= x / Region.REGIONSIZE / Assets.DRAWSIZE + Region.REGIONUNLOADDISTANCE / 2
+						|| r.getWorldY() <= y / Region.REGIONSIZE / Assets.DRAWSIZE - Region.REGIONUNLOADDISTANCE / 2
+						|| r.getWorldY() >= y / Region.REGIONSIZE / Assets.DRAWSIZE + Region.REGIONUNLOADDISTANCE / 2) {
+					iterator.remove();
+				}
+			}
 		}
 		move();
 	}
@@ -63,9 +87,11 @@ public class Player extends DynamicEntity {
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(Assets.player, (int) (x - conveyor.getCamera().getxOffset()), (int) (y - conveyor.getCamera().getyOffset()), width, height, null);
-//		g.setColor(Color.RED);
-//		g.drawRect((int) (bounds.x + x), (int) (y + bounds.y), bounds.width, bounds.height);
+		g.drawImage(Assets.player, (int) (x - conveyor.getCamera().getxOffset()),
+				(int) (y - conveyor.getCamera().getyOffset()), width, height, null);
+		// g.setColor(Color.RED);
+		// g.drawRect((int) (bounds.x + x), (int) (y + bounds.y), bounds.width,
+		// bounds.height);
 
 	}
 
