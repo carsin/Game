@@ -56,6 +56,7 @@ public class World {
 			Region r = regions.get(i);
 			r.tick();
 		}
+		
 	}
 
 	public void render(Graphics g) {

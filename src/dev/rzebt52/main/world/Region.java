@@ -71,6 +71,22 @@ public class Region {
 	}
 
 	public void tick() {
+		
+		int z = 0;
+
+		for (int x = 0; x < REGIONSIZE; x++) {
+			for (int y = 0; y < REGIONSIZE; y++) {
+					Random r = new Random();
+					int randNumber = r.nextInt(10000);
+					if (randNumber == 5000) {
+						if (getTile(x, y, z) == Tile.grass.getId()) {
+							if (getTile(x - 1, y, z) == Tile.dirt.getId() || getTile(x + 1, y, z) == Tile.dirt.getId() || getTile(x, y - 1, z) == Tile.dirt.getId() || getTile(x, y + 1, z) == Tile.dirt.getId()) {
+								tiles[x][y][z] = Tile.grass.getId();
+						}
+					}
+				}
+			}
+		}
 
 	}
 
@@ -85,6 +101,12 @@ public class Region {
 			}
 		}
 	}
+
+	/*
+	 * public boolean isTouching(int tileX, int tileY, int tileZ, int id) { for
+	 * (int x = 0; x < REGIONSIZE; x++) { for (int y = 0; y < REGIONSIZE; y++) {
+	 * for (int z = 0; z < REGIONHEIGHT; z++) { if () } } } }
+	 */
 
 	public int getWorldX() {
 		return worldX;

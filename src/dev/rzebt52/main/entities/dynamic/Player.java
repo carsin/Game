@@ -18,7 +18,7 @@ public class Player extends DynamicEntity {
 		super(x, y, conveyor);
 		this.controlled = controlled;
 
-		speed = 5;
+		speed = 10;
 
 		bounds.setBounds(3 * Assets.DRAWRES, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES, 4 * Assets.DRAWRES);
 

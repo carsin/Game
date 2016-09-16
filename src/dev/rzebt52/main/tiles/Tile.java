@@ -10,8 +10,11 @@ public abstract class Tile {
 
 	public static Tile[] tiles = new Tile[256];
 	public static Tile air = new Air(0);
-	public static Tile stone = new Stone(1);
-	public static Tile dirt = new Dirt(2);
+	public static Tile dirt = new Dirt(1);
+	public static Tile grass = new Grass(2);
+	public static Tile stone = new Stone(3);
+	public static Tile log = new Log(4);
+	public static Tile leaves = new Leaves(5);
 
 	protected BufferedImage texture;
 	protected int id;
