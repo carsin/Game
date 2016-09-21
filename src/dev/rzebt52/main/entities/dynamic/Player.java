@@ -73,12 +73,18 @@ public class Player extends DynamicEntity {
 			Iterator<Region> iterator = conveyor.getWorld().getRegions().iterator();
 			while (iterator.hasNext()) {
 				Region r = iterator.next();
-				if (	   r.getWorldX() <= x / Region.REGIONSIZE / Assets.DRAWSIZE - Region.REGIONUNLOADDISTANCE / 2
+				if (r.getWorldX() <= x / Region.REGIONSIZE / Assets.DRAWSIZE - Region.REGIONUNLOADDISTANCE / 2
 						|| r.getWorldX() >= x / Region.REGIONSIZE / Assets.DRAWSIZE + Region.REGIONUNLOADDISTANCE / 2
 						|| r.getWorldY() <= y / Region.REGIONSIZE / Assets.DRAWSIZE - Region.REGIONUNLOADDISTANCE / 2
 						|| r.getWorldY() >= y / Region.REGIONSIZE / Assets.DRAWSIZE + Region.REGIONUNLOADDISTANCE / 2) {
 					iterator.remove();
 				}
+			}
+			if(conveyor.getMouseHandler().getPressed(1)) {
+				int mouseX = conveyor.getMouseHandler().getMouseX();
+				int mouseY = conveyor.getMouseHandler().getMouseY();
+				conveyor.getWorld().setTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE, (mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, 0);
+				System.out.println((mouseX - conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE);
 			}
 		}
 		move();

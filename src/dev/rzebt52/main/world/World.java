@@ -24,12 +24,12 @@ public class World {
 		regions.add(new Region(-1, 0, path, conveyor));
 
 	}
-	
+
 	public void loadWorld() {
 		String worldFile = Util.loadFile(path);
 		String[] tokens = worldFile.split("\\s+");
-		for(int i = 0; i < tokens.length; i++) {
-			
+		for (int i = 0; i < tokens.length; i++) {
+
 		}
 	}
 
@@ -39,14 +39,14 @@ public class World {
 
 	public void unloadRegion(int regionX, int regionY) {
 		Iterator<Region> iterator = regions.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			Region r = iterator.next();
 			if (r.getWorldX() == regionX && r.getWorldY() == regionY) {
 				regions.remove(r);
 			}
 		}
 	}
-	
+
 	public void unloadRegion(Region r) {
 		regions.remove(r);
 	}
@@ -56,7 +56,7 @@ public class World {
 			Region r = regions.get(i);
 			r.tick();
 		}
-		
+
 	}
 
 	public void render(Graphics g) {
@@ -83,6 +83,35 @@ public class World {
 			return -1;
 		}
 	}
+	
+	public void setTile(int x, int y, int z, int t) {
+		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
+		try {
+			r.setTile(x - r.getWorldX() * Region.REGIONSIZE, y - r.getWorldY() * Region.REGIONSIZE, z, t);
+		} catch (NullPointerException e) {
+		}
+	}
+
+	public void getTileAndPrint(int x, int y, int z) {
+		Region r;
+		int regionX;
+		int regionY;
+		if (x >= 0)
+			regionX = (int) Math.floor(x / Region.REGIONSIZE);
+		else
+			regionX = (int) Math.ceil(x / Region.REGIONSIZE);
+		if (y >= 0)
+			regionY = (int) Math.floor(y / Region.REGIONSIZE);
+		else
+			regionY = (int) Math.ceil(y / Region.REGIONSIZE);
+		r = getRegion(regionX, regionY);
+
+		try {
+			r.getTileAndPrint(x - r.getWorldX() * Region.REGIONSIZE, y - r.getWorldY() * Region.REGIONSIZE, z);
+		} catch (NullPointerException e) {
+
+		}
+	}
 
 	public ArrayList<Region> getRegions() {
 		return regions;
@@ -90,6 +119,10 @@ public class World {
 
 	public String getPath() {
 		return path;
+	}
+
+	public String getSeed() {
+		return seed;
 	}
 
 }

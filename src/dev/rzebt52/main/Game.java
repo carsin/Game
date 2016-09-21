@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.input.KeyHandler;
+import dev.rzebt52.main.input.MouseHandler;
 import dev.rzebt52.main.scenes.Scene;
 import dev.rzebt52.main.scenes._Game;
 
@@ -27,7 +28,9 @@ public class Game implements Runnable {
 	private JFrame frame;
 	
 	private Conveyor conveyor;
+	
 	private KeyHandler keyHandler;
+	private MouseHandler mouseHandler;
 
 	int ticks = 0;
 	int frames = 0;
@@ -47,6 +50,8 @@ public class Game implements Runnable {
 		canvas.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		canvas.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		canvas.setFocusable(false);
+		canvas.addMouseListener(mouseHandler);
+		canvas.addMouseMotionListener(mouseHandler);
 
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,6 +60,8 @@ public class Game implements Runnable {
 		frame.setResizable(false);
 		frame.setFocusable(true);
 		frame.addKeyListener(keyHandler);
+		frame.addMouseListener(mouseHandler);
+		frame.addMouseMotionListener(mouseHandler);
 		frame.setLocationRelativeTo(null);
 		frame.requestFocus();
 		frame.pack();
@@ -66,6 +73,7 @@ public class Game implements Runnable {
 		
 		conveyor = new Conveyor(this);
 		keyHandler = new KeyHandler(conveyor);
+		mouseHandler = new MouseHandler();
 		Assets.update();
 		initFrame();
 
@@ -210,6 +218,10 @@ public class Game implements Runnable {
 	
 	public KeyHandler getKeyHandler() {
 		return keyHandler;
+	}
+	
+	public MouseHandler getMouseHandler() {
+		return mouseHandler;
 	}
 
 }

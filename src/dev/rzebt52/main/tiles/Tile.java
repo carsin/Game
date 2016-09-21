@@ -15,6 +15,7 @@ public abstract class Tile {
 	public static Tile stone = new Stone(3);
 	public static Tile log = new Log(4);
 	public static Tile leaves = new Leaves(5);
+	public static Tile magnesium = new Magnesium(6);
 
 	protected BufferedImage texture;
 	protected int id;

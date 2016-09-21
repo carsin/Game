@@ -38,6 +38,19 @@ public class Region {
 		}
 	}
 
+	public void getTileAndPrint(int x, int y, int z) {
+		try {
+			System.out.println("Found tile " + tiles[x][y][z] + " at x:" + x + ", y:" + y + ", z:" + z);
+
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Out of bounds, 0");
+		}
+	}
+	
+	public void setTile(int x, int y, int z, int t) {
+		tiles[x][y][z] = t;
+	}
+
 	public void loadRegion(String path) {
 
 		String regionFile = Util.loadFile(path);
@@ -61,9 +74,13 @@ public class Region {
 				for (int y = 0; y < REGIONSIZE; y++) {
 					for (int x = 0; x < REGIONSIZE; x++) {
 						if (z == 0) {
-							tiles[x][y][z] = new Random().nextInt(2) + 1;
+							tiles[x][y][z] = 6;
 						} else {
-							tiles[x][y][z] = 0;
+							if (new Random().nextInt(10) == 0) {
+								tiles[x][y][z] = new Random().nextInt(2) + 1;
+							} else {
+								tiles[x][y][z] = 0;
+							}
 						}
 					}
 				}
@@ -72,24 +89,6 @@ public class Region {
 	}
 
 	public void tick() {
-
-		int z = 0;
-
-		for (int x = 0; x < REGIONSIZE; x++) {
-			for (int y = 0; y < REGIONSIZE; y++) {
-				Random r = new Random();
-				int randNumber = r.nextInt(10000);
-				if (randNumber == 5000) {
-					if (getTile(x, y, z) == Tile.grass.getId()) {
-						if (getTile(x - 1, y, z) == Tile.dirt.getId() || getTile(x + 1, y, z) == Tile.dirt.getId()
-								|| getTile(x, y - 1, z) == Tile.dirt.getId()
-								|| getTile(x, y + 1, z) == Tile.dirt.getId()) {
-							tiles[x][y][z] = Tile.grass.getId();
-						}
-					}
-				}
-			}
-		}
 
 	}
 
@@ -106,22 +105,48 @@ public class Region {
 		for (int x = 0; x < REGIONSIZE; x++) {
 			for (int y = 0; y < REGIONSIZE; y++) {
 				for (int z = 0; z < REGIONHEIGHT; z++) {
+					int worldPixelsX = worldX * REGIONSIZE * Assets.DRAWSIZE;
+					int worldPixelsY = worldY * REGIONSIZE * Assets.DRAWSIZE;
+					int worldPosX = worldX * REGIONSIZE;
+					int worldPosY = worldY * REGIONSIZE;
 					if (z == 1) {
 						g.setColor(Color.BLACK);
+						World world = conveyor.getWorld();
 						boolean currentTile, tileUp, tileDown, tileLeft, tileRight;
 						currentTile = Tile.getTile(getTile(x, y, z)).wallIsSolid();
-						tileUp = Tile.getTile(getTile(x, y - 1, z)).wallIsSolid();
-						tileDown = Tile.getTile(getTile(x, y + 1, z)).wallIsSolid();
-						tileLeft = Tile.getTile(getTile(x - 1, y, z)).wallIsSolid();
-						tileRight = Tile.getTile(getTile(x + 1, y, z)).wallIsSolid();
-						int coordX = x * Assets.DRAWSIZE - conveyor.getCamera().getxOffset();
-						int coordY = y * Assets.DRAWSIZE - conveyor.getCamera().getyOffset();
+						try {
+							tileUp = Tile.getTile(world.getTile(x + worldPosX, y - 1 + worldPosY, z)).wallIsSolid();
+						} catch (NullPointerException e) {
+							tileUp = false;
+						}
+						try {
+							tileDown = Tile.getTile(world.getTile(x + worldPosX, y + 1 + worldPosY, z)).wallIsSolid();
+						} catch (NullPointerException e) {
+							tileDown = false;
+						}
+						try {
+							tileLeft = Tile.getTile(world.getTile(x - 1 + worldPosX, y + worldPosY, z)).wallIsSolid();
+						} catch (NullPointerException e) {
+							tileLeft = false;
+						}
+						try {
+							tileRight = Tile.getTile(world.getTile(x + 1 + worldPosX, y + worldPosY, z)).wallIsSolid();
+						} catch (NullPointerException e) {
+							tileRight = false;
+						}
+						int coordX = x * Assets.DRAWSIZE - conveyor.getCamera().getxOffset() + worldPixelsX;
+						int coordY = y * Assets.DRAWSIZE - conveyor.getCamera().getyOffset() + worldPixelsY;
 						if (!currentTile) {
 							if (tileUp)
 								g.drawLine(coordX, coordY, coordX + Assets.DRAWSIZE - 1, coordY);
-							if(tileDown) g.drawLine(coordX, coordY + Assets.DRAWSIZE - 1, coordX + Assets.DRAWSIZE - 1, coordY + Assets.DRAWSIZE - 1);
-							if(tileLeft) g.drawLine(coordX, coordY, coordX, coordY + Assets.DRAWSIZE - 1);
-							if(tileRight) g.drawLine(coordX + Assets.DRAWSIZE - 1, coordY, coordX + Assets.DRAWSIZE - 1, coordY + Assets.DRAWSIZE - 1);
+							if (tileDown)
+								g.drawLine(coordX, coordY + Assets.DRAWSIZE - 1, coordX + Assets.DRAWSIZE - 1,
+										coordY + Assets.DRAWSIZE - 1);
+							if (tileLeft)
+								g.drawLine(coordX, coordY, coordX, coordY + Assets.DRAWSIZE - 1);
+							if (tileRight)
+								g.drawLine(coordX + Assets.DRAWSIZE - 1, coordY, coordX + Assets.DRAWSIZE - 1,
+										coordY + Assets.DRAWSIZE - 1);
 						}
 					}
 				}
