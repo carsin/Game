@@ -80,11 +80,20 @@ public class Player extends DynamicEntity {
 					iterator.remove();
 				}
 			}
-			if(conveyor.getMouseHandler().getPressed(1)) {
+			if (conveyor.getMouseHandler().getPressed(1)) {
 				int mouseX = conveyor.getMouseHandler().getMouseX();
 				int mouseY = conveyor.getMouseHandler().getMouseY();
-				conveyor.getWorld().setTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE, (mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, 0);
-				System.out.println((mouseX - conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE);
+				conveyor.getWorld().setTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE,
+						(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, 0);
+			}
+			if (conveyor.getMouseHandler().getPressed(3)) {
+				int mouseX = conveyor.getMouseHandler().getMouseX();
+				int mouseY = conveyor.getMouseHandler().getMouseY();
+				if (conveyor.getWorld().getTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE,
+						(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1) == 0) {
+					conveyor.getWorld().setTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE,
+							(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, 4);
+				}
 			}
 		}
 		move();
