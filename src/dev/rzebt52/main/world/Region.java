@@ -1,5 +1,6 @@
 package dev.rzebt52.main.world;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -71,17 +72,19 @@ public class Region {
 	}
 
 	public void tick() {
-		
+
 		int z = 0;
 
 		for (int x = 0; x < REGIONSIZE; x++) {
 			for (int y = 0; y < REGIONSIZE; y++) {
-					Random r = new Random();
-					int randNumber = r.nextInt(10000);
-					if (randNumber == 5000) {
-						if (getTile(x, y, z) == Tile.grass.getId()) {
-							if (getTile(x - 1, y, z) == Tile.dirt.getId() || getTile(x + 1, y, z) == Tile.dirt.getId() || getTile(x, y - 1, z) == Tile.dirt.getId() || getTile(x, y + 1, z) == Tile.dirt.getId()) {
-								tiles[x][y][z] = Tile.grass.getId();
+				Random r = new Random();
+				int randNumber = r.nextInt(10000);
+				if (randNumber == 5000) {
+					if (getTile(x, y, z) == Tile.grass.getId()) {
+						if (getTile(x - 1, y, z) == Tile.dirt.getId() || getTile(x + 1, y, z) == Tile.dirt.getId()
+								|| getTile(x, y - 1, z) == Tile.dirt.getId()
+								|| getTile(x, y + 1, z) == Tile.dirt.getId()) {
+							tiles[x][y][z] = Tile.grass.getId();
 						}
 					}
 				}
@@ -97,6 +100,30 @@ public class Region {
 					Tile.getTile(tiles[x][y][z]).render(g,
 							(x + worldX * REGIONSIZE) * Assets.DRAWSIZE - conveyor.getCamera().getxOffset(),
 							(y + worldY * REGIONSIZE) * Assets.DRAWSIZE - conveyor.getCamera().getyOffset());
+				}
+			}
+		}
+		for (int x = 0; x < REGIONSIZE; x++) {
+			for (int y = 0; y < REGIONSIZE; y++) {
+				for (int z = 0; z < REGIONHEIGHT; z++) {
+					if (z == 1) {
+						g.setColor(Color.BLACK);
+						boolean currentTile, tileUp, tileDown, tileLeft, tileRight;
+						currentTile = Tile.getTile(getTile(x, y, z)).wallIsSolid();
+						tileUp = Tile.getTile(getTile(x, y - 1, z)).wallIsSolid();
+						tileDown = Tile.getTile(getTile(x, y + 1, z)).wallIsSolid();
+						tileLeft = Tile.getTile(getTile(x - 1, y, z)).wallIsSolid();
+						tileRight = Tile.getTile(getTile(x + 1, y, z)).wallIsSolid();
+						int coordX = x * Assets.DRAWSIZE - conveyor.getCamera().getxOffset();
+						int coordY = y * Assets.DRAWSIZE - conveyor.getCamera().getyOffset();
+						if (!currentTile) {
+							if (tileUp)
+								g.drawLine(coordX, coordY, coordX + Assets.DRAWSIZE - 1, coordY);
+							if(tileDown) g.drawLine(coordX, coordY + Assets.DRAWSIZE - 1, coordX + Assets.DRAWSIZE - 1, coordY + Assets.DRAWSIZE - 1);
+							if(tileLeft) g.drawLine(coordX, coordY, coordX, coordY + Assets.DRAWSIZE - 1);
+							if(tileRight) g.drawLine(coordX + Assets.DRAWSIZE - 1, coordY, coordX + Assets.DRAWSIZE - 1, coordY + Assets.DRAWSIZE - 1);
+						}
+					}
 				}
 			}
 		}

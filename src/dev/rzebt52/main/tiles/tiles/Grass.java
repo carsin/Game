@@ -11,7 +11,7 @@ public class Grass extends Tile {
 
 	@Override
 	public boolean wallIsSolid() {
-		return false;
+		return true;
 	}
 
 }

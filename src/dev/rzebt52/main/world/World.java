@@ -77,7 +77,7 @@ public class World {
 	public int getTile(int x, int y, int z) {
 		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
 		try {
-			int t = r.getTile(x + r.getWorldX() * Region.REGIONSIZE, y + r.getWorldY() * Region.REGIONSIZE, z);
+			int t = r.getTile(x - r.getWorldX() * Region.REGIONSIZE, y - r.getWorldY() * Region.REGIONSIZE, z);
 			return t;
 		} catch (NullPointerException e) {
 			return -1;

@@ -10,7 +10,7 @@ public class Leaves extends Tile {
 
 	@Override
 	public boolean wallIsSolid() {
-		return false;
+		return true;
 	}
 
 }

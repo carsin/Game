@@ -71,7 +71,7 @@ public abstract class DynamicEntity extends Entity {
 
 	public boolean getTileCollision(int x, int y, int z) {
 		int t = conveyor.getWorld().getTile(x, y, z);
-		if(t != -1)
+		if(t >= -1)
 			return Tile.getTile(t).wallIsSolid();
 		return true;
 	}
