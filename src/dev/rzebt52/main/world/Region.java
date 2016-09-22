@@ -7,6 +7,7 @@ import java.util.Random;
 import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.tiles.Tile;
+import dev.rzebt52.main.util.MathHelper;
 import dev.rzebt52.main.util.Util;
 
 public class Region {
@@ -19,12 +20,16 @@ public class Region {
 	private int worldX;
 	private int worldY;
 	private Conveyor conveyor;
+	private Random generator;
+	private World world;
 
 	public Region(int worldX, int worldY, String path, Conveyor conveyor) {
-
+		
 		this.worldX = worldX;
 		this.worldY = worldY;
 		this.conveyor = conveyor;
+		world = conveyor.getWorld();
+		generator = new Random(worldX + worldY >> MathHelper.safeRemainder(worldX, worldY) ^ 3 * (world.getSeed() / 1000));
 
 		loadRegion(path + "regions/" + worldX + "_" + worldY + ".region");
 
@@ -46,7 +51,7 @@ public class Region {
 			System.out.println("Out of bounds, 0");
 		}
 	}
-	
+
 	public void setTile(int x, int y, int z, int t) {
 		tiles[x][y][z] = t;
 	}
@@ -55,32 +60,41 @@ public class Region {
 
 		String regionFile = Util.loadFile(path);
 
-		if (regionFile != "" && regionFile != null) {
-			String[] tokens = regionFile.split("\\s+");
+		try {
+			if (regionFile != "" && regionFile != null) {
+				String[] tokens = regionFile.split("\\s+");
 
-			tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+				tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
 
-			for (int z = 0; z < REGIONHEIGHT; z++) {
-				for (int y = 0; y < REGIONSIZE; y++) {
-					for (int x = 0; x < REGIONSIZE; x++) {
-						tiles[x][y][z] = Util.parseInt(tokens[(x + y * REGIONSIZE + z * REGIONSIZE * REGIONSIZE)]);
+				for (int z = 0; z < REGIONHEIGHT; z++) {
+					for (int y = 0; y < REGIONSIZE; y++) {
+						for (int x = 0; x < REGIONSIZE; x++) {
+							tiles[x][y][z] = Util.parseInt(tokens[(x + y * REGIONSIZE + z * REGIONSIZE * REGIONSIZE)]);
+						}
 					}
 				}
+			} else {
+				generateRegion();
 			}
-		} else {
-			tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			generateRegion();
+		}
+	}
 
-			for (int z = 0; z < REGIONHEIGHT; z++) {
-				for (int y = 0; y < REGIONSIZE; y++) {
-					for (int x = 0; x < REGIONSIZE; x++) {
-						if (z == 0) {
-							tiles[x][y][z] = 6;
+	public void generateRegion() {
+
+		tiles = new int[REGIONSIZE][REGIONSIZE][REGIONHEIGHT];
+
+		for (int z = 0; z < REGIONHEIGHT; z++) {
+			for (int y = 0; y < REGIONSIZE; y++) {
+				for (int x = 0; x < REGIONSIZE; x++) {
+					if (z == 0) {
+						tiles[x][y][z] = 6;
+					} else {
+						if (generator.nextInt(10) == 0) {
+							tiles[x][y][z] = generator.nextInt(5) + 1;
 						} else {
-							if (new Random().nextInt(10) == 0) {
-								tiles[x][y][z] = new Random().nextInt(2) + 1;
-							} else {
-								tiles[x][y][z] = 0;
-							}
+							tiles[x][y][z] = 0;
 						}
 					}
 				}

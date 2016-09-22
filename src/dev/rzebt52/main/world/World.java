@@ -3,6 +3,7 @@ package dev.rzebt52.main.world;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import dev.rzebt52.main.Conveyor;
 import dev.rzebt52.main.util.Util;
@@ -12,16 +13,27 @@ public class World {
 	private ArrayList<Region> regions;
 	private String path;
 	private Conveyor conveyor;
-	private String seed;
+	private long seed;
+	private Random generator;
 
+	public World(String path, long seed, Conveyor conveyor) {
+
+		this.path = path;
+		this.seed = seed;
+		this.conveyor = conveyor;
+		generator = new Random(seed);
+
+		regions = new ArrayList<Region>();
+
+	}
+	
 	public World(String path, Conveyor conveyor) {
 
 		this.path = path;
 		this.conveyor = conveyor;
+		generator = new Random(seed);
 
 		regions = new ArrayList<Region>();
-		regions.add(new Region(0, 0, path, conveyor));
-		regions.add(new Region(-1, 0, path, conveyor));
 
 	}
 
@@ -29,7 +41,15 @@ public class World {
 		String worldFile = Util.loadFile(path);
 		String[] tokens = worldFile.split("\\s+");
 		for (int i = 0; i < tokens.length; i++) {
-
+			
+			String[] token = tokens[i].split("=");
+			String id = token[0];
+			String value = token[1];
+			
+			switch (id) {
+			case "seed":
+				seed = Util.parseInt(value);
+			}
 		}
 	}
 
@@ -75,7 +95,19 @@ public class World {
 	}
 
 	public int getTile(int x, int y, int z) {
-		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
+		int regionX;
+		int regionY;
+		if(x >= 0) {
+			regionX = (int) Math.floor(x / Region.REGIONSIZE);
+		} else {
+			regionX = (int) Math.ceil(x / Region.REGIONSIZE) - 1;
+		}
+		if(x >= 0) {
+			regionY = (int) Math.floor(y / Region.REGIONSIZE);
+		} else {
+			regionY = (int) Math.ceil(y / Region.REGIONSIZE) - 1;
+		}
+		Region r = getRegion(regionX, regionY);
 		try {
 			int t = r.getTile(x - r.getWorldX() * Region.REGIONSIZE, y - r.getWorldY() * Region.REGIONSIZE, z);
 			return t;
@@ -85,7 +117,19 @@ public class World {
 	}
 	
 	public void setTile(int x, int y, int z, int t) {
-		Region r = getRegion((int) Math.floor(x / Region.REGIONSIZE), (int) Math.floor(y / Region.REGIONSIZE));
+		int regionX;
+		int regionY;
+		if(x >= 0) {
+			regionX = (int) Math.floor(x / Region.REGIONSIZE);
+		} else {
+			regionX = (int) Math.ceil(x / Region.REGIONSIZE) + 1;
+		}
+		if(x >= 0) {
+			regionY = (int) Math.floor(y / Region.REGIONSIZE);
+		} else {
+			regionY = (int) Math.ceil(y / Region.REGIONSIZE) + 1;
+		}
+		Region r = getRegion(regionX, regionY);
 		try {
 			r.setTile(x - r.getWorldX() * Region.REGIONSIZE, y - r.getWorldY() * Region.REGIONSIZE, z, t);
 		} catch (NullPointerException e) {
@@ -121,8 +165,12 @@ public class World {
 		return path;
 	}
 
-	public String getSeed() {
+	public long getSeed() {
 		return seed;
+	}
+	
+	public Random getGenerator() {
+		return generator;
 	}
 
 }

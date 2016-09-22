@@ -38,9 +38,9 @@ public class Util {
 
 	}
 
-	public static int parseInt(String integer) {
+	public static int parseInt(String str) {
 		try {
-			return Integer.parseInt(integer);
+			return Integer.parseInt(str);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			return 0;
