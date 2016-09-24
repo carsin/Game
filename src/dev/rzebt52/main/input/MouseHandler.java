@@ -67,11 +67,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 		return mouseY;
 	}
 
-	public boolean isMouseIn() {
+	public boolean getMouseIn() {
 		return mouseIn;
 	}
 
-	public boolean isMouseOut() {
+	public boolean getMouseOut() {
 		return mouseOut;
 	}
 	

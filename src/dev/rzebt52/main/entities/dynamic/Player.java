@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.Iterator;
 
 import dev.rzebt52.main.Conveyor;
+import dev.rzebt52.main.entities.stock.Backpack;
 import dev.rzebt52.main.graphics.Assets;
 import dev.rzebt52.main.input.KeyHandler;
 import dev.rzebt52.main.world.Region;
@@ -12,11 +13,13 @@ import dev.rzebt52.main.world.Region;
 public class Player extends DynamicEntity {
 
 	private boolean controlled;
+	private Backpack backpack;
 
 	public Player(int x, int y, boolean controlled, Conveyor conveyor) {
 
 		super(x, y, conveyor);
 		this.controlled = controlled;
+		backpack = new Backpack(conveyor);
 
 		speed = 5;
 
@@ -57,6 +60,7 @@ public class Player extends DynamicEntity {
 	@Override
 	public void tick() {
 		if (controlled) {
+			backpack.tick();
 			getControls();
 			for (int x = 0; x < Region.REGIONUNLOADDISTANCE; x++) {
 				for (int y = 0; y < Region.REGIONUNLOADDISTANCE; y++) {
@@ -92,7 +96,7 @@ public class Player extends DynamicEntity {
 				if (conveyor.getWorld().getTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE,
 						(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1) == 0) {
 					conveyor.getWorld().setTile((mouseX + conveyor.getCamera().getxOffset()) / Assets.DRAWSIZE,
-							(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, 4);
+							(mouseY + conveyor.getCamera().getyOffset()) / Assets.DRAWSIZE, 1, backpack.getCurrentTile().getId());
 				}
 			}
 		}
@@ -101,7 +105,7 @@ public class Player extends DynamicEntity {
 
 	@Override
 	public void render(Graphics g) {
-
+		backpack.render(g);
 		g.drawImage(Assets.player, (int) (x - conveyor.getCamera().getxOffset()),
 				(int) (y - conveyor.getCamera().getyOffset()), width, height, null);
 		// g.setColor(Color.RED);

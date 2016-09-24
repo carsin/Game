@@ -49,4 +49,8 @@ public abstract class Tile {
 
 	public abstract boolean wallIsSolid();
 
+	public BufferedImage getTexture() {
+		return texture;
+	}
+
 }
